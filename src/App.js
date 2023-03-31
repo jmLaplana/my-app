@@ -1,62 +1,85 @@
+import { useState } from "react";
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+
+
+function Button({label, onClick}) {
+  return (
+    <button className = "CalcButton" onClick = {onClick}>
+		{label}
+    </button>
+  );
+}
+  
+function Display({display}) {
+  return (
+    <div className = "CalcDisplay">
+		{display}
+    </div>    
+  );
+}
 
 function App() {
-  const [result, setResult] = useState('');
-
-  const handleClick = (e) => {
-    setResult(result.concat(e.target.name));
-  }
-
-  const clear = () => {
-    setResult("");
-  }
-
-  const handleDelete = () => {
-    setResult(result.slice(0, -1));
-  }
-
-  const calculate = () => {
-    try {
-      setResult(eval(result).toString());
-    } catch {
-      setResult("Error")
-    }
-  }
-
-  return (
-    <div className="App">
 	
-      <div className='container'>
-        <form>
-          <input type="text" value={result} />
-        </form>
-
-        <div className='keypad'>
-          <button onClick={clear} id='clear' className='highlight'>C</button>
-          <button onClick={handleDelete} className='highlight'>DEL</button>
-          <button name='/' onClick={handleClick} className='highlight'>&divide;</button>
-          <button name="7" onClick={handleClick}>7</button>
-          <button name="8" onClick={handleClick}>8</button>
-          <button name="9" onClick={handleClick}>9</button>
-          <button name="*" onClick={handleClick} className='highlight'>&times;</button>
-          <button name="4" onClick={handleClick}>4</button>
-          <button name="5" onClick={handleClick}>5</button>
-          <button name="6" onClick={handleClick}>6</button>
-          <button name="-" onClick={handleClick} className='highlight'>-</button>
-          <button name="1" onClick={handleClick}>1</button>
-          <button name="2" onClick={handleClick}>2</button>
-          <button name="3" onClick={handleClick}>3</button>
-          <button name="+" onClick={handleClick} className='highlight'>+</button>
-          <button name="0" onClick={handleClick}>0</button>
-          <button name="." onClick={handleClick}>.</button>
-          <button onClick={calculate} id='equal' className='highlight'>=</button>
-        </div>
-
-      </div>
-
+	const[disp, setDisp] = useState(0);
+	const[num1, setNum1] = useState(null);
+	const[oper, setOper] = useState(null);
+	const[num2, setNum2] = useState(null);
+	
+	const handleClick = (e) => {
+		e.preventDefault();
+		
+		const value = e.target.innerHTML;
+		if(oper === null){
+			if(num1 === null){
+				setNum1(value);
+				setDisp(value);
+			} 
+			else {
+				setNum1(num1 + value);
+				setDisp(num1 + value);
+			}
+		} 
+		else {
+			if(num2 === null){
+				setNum2(value);
+				setDisp(value);
+			} 
+			else {
+				setNum2(num2+value);
+				setDisp(num2+value);
+			}
+		console.log(num1 + " " + oper + " " + num2);
+		}
+		
+	}
+	
+  return (
+  <div className = "Calculator">
+    <Display display = {disp} />
+	<div className = "ButtonContainer">
+      <Button label = {"C"} onClick = {handleClick} />
+      <Button label = {"÷"} onClick = {handleClick} />
+      <Button label = {"x"} onClick = {handleClick} />
+      <Button label = {"Del"} onClick = {handleClick} />
+      <Button label = {7} onClick = {handleClick} />
+      <Button label = {8} onClick = {handleClick} />
+      <Button label = {9} onClick = {handleClick} />
+      <Button label = {"-"} onClick = {handleClick} />
+      <Button label = {4} onClick = {handleClick} />
+      <Button label = {5} onClick = {handleClick} />
+      <Button label = {6} onClick = {handleClick} />
+      <Button label = {"+"} onClick = {handleClick} />
+      <Button label = {1} onClick = {handleClick} />
+      <Button label = {2} onClick = {handleClick} />
+      <Button label = {3} onClick = {handleClick} />
+      <Button label = {"="} onClick = {handleClick} />
+      <Button label = {"%"} onClick = {handleClick} />
+      <Button label = {0} onClick = {handleClick} />
+      <Button label = {"."} onClick = {handleClick} />
     </div>
+  </div>
+ 
   );
 }
 
